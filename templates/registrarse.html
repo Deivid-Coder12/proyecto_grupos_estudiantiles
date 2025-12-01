@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro | UNAL Grupos Estudiantiles</title>
+    <link rel="stylesheet" href="../static/registrarse.css">
+    <link rel="icon" href="../static/img/Logo.png" type="image/jpeg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Barra de navegación -->
+    <header>
+        <div class="nav-left">
+            <a href="/" class="home-btn"><i class="fa-solid fa-house"></i></a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/">INICIO</a></li>
+                <li><a href="/clubes">CLUBES</a></li>
+                <li><a href="/eventos">EVENTOS</a></li>
+                <li><a href="/perfil">PERFIL</a></li>
+            </ul>
+        </nav>
+        <div class="nav-right">
+            <img src="../static/img/Logo.png" alt="Logo Grupos Estudiantiles">
+        </div>
+    </header>
+
+    <!-- Formulario de registro -->
+    <section class="signup-section">
+        <div class="signup-container">
+            <div class="signup-logo">
+                <img src="../static/img/Logo.png" alt="Logo UNAL">
+            </div>
+            <h2>CREAR CUENTA</h2>
+
+            <form action="/registro" method="POST">
+                <div class="input-group">
+                    <label for="name">Nombre completo</label>
+                    <input type="text" id="name" name="name" placeholder="Ingresa tu nombre completo" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="email">Correo institucional</label>
+                    <input type="email" id="email" name="correo" placeholder="ejemplo@unal.edu.co" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="password">Contraseña</label>
+                    <input type="password" id="password" name="password" placeholder="Crea una contraseña" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="carrera">Carrera</label>
+                    <input type="carrera" id="carrera" name="carrera" placeholder="Ingrese su carrera" required>
+                </div>
+
+                <button type="submit" class="signup-btn">
+                    <i class="fa-solid fa-user-plus"></i> Registrarse
+                </button>
+
+                <p class="login-text">¿Ya tienes cuenta? <a href="/inicio_sesion">Inicia sesión</a></p>
+            </form>
+
+            <div class="social-icons">
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#"><i class="fa-solid fa-envelope"></i></a>
+            
+            </div>
+        </div>
+    </section>
+</body>
+</html>
+
+        </div>
+    </section>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil - Grupos Estudiantiles UNAL</title>
+    <link rel="stylesheet" href="../static/perfil.css">
+    <link rel="icon" href="../static/img/Logo.png" type="image/jpeg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+<header>
+    <div class="nav-left">
+        <a href="/" class="home-btn"><i class="fa-solid fa-house"></i></a>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="/">INICIO</a></li>
+            <li><a href="/clubes">CLUBES</a></li>
+            <li><a href="/eventos">EVENTOS</a></li>
+            <li><a href="/perfil">PERFIL</a></li>
+        </ul>
+    </nav>
+    <div class="nav-right">
+        <img src="../static/img/Logo.png" alt="Logo UNAL">
+    </div>
+</header>
+
+<section class="perfil-section">
+    <div class="perfil-container">
+
+        <!-- LADO IZQUIERDO -->
+        <div class="perfil-left">
+            <div class="foto-container">
+                <img src="../static/img/user.png">
+                <button class="cambiar-foto"><i class="fa-solid fa-camera"></i></button>
+            </div>
+            <h2 class="nombre">{{ usuario.nombre_completo }}</h2>
+            <p class="correo">{{ usuario.correo }}</p>
+
+            <div class="atributos">
+                <p><strong>Nombre completo:</strong> 
+                    <span id="nombre_completo">{{ usuario.nombre_completo }}</span>
+                </p>
+                <p><strong>Carrera:</strong> 
+                    <span id="carrera">{{ usuario.carrera }}</span>
+                </p>
+                <p><strong>Contraseña:</strong> 
+                    <!-- ✅ AÑADIDO readonly -->
+                    <input type="password" id="contraseña" placeholder="*********" readonly>
+                </p>
+            </div>
+
+            <div class="perfil-buttons">
+                <button class="editar-btn" onclick="editarPerfil()"><i class="fa-solid fa-pen"></i> Editar</button>
+                <button class="guardar-btn hidden" onclick="guardarPerfil()"><i class="fa-solid fa-check"></i> Guardar</button>
+                <button class="cancelar-btn hidden" onclick="cancelarEdicion()"><i class="fa-solid fa-xmark"></i> Cancelar</button>
+                
+                <!-- Botón de eliminar usuario -->
+                <form method="POST" action="/perfil/eliminar" onsubmit="return confirm('¿Estás seguro de que deseas eliminar tu cuenta? Esta acción es irreversible.');">
+                    <button type="submit" class="eliminar-btn">
+                        <i class="fa-solid fa-trash"></i> Eliminar Usuario
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- LADO DERECHO -->
+        <div class="perfil-right">
+            <div class="bio">
+                <h2>Descripción personal</h2>
+                <textarea id="bio" readonly>{{ usuario.bio or '' }}</textarea>
+            </div>
+
+            <div class="grupos">
+                <h2>Grupos estudiantiles</h2>
+                <ul id="lista-grupos">
+                    {% for grupo in usuario.grupos %}
+                        <li>
+                            {{ grupo.nombre }}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+function editarPerfil() {
+    // ✅ Habilitar edición visual
+    document.querySelector('#nombre_completo').contentEditable = true;
+    document.querySelector('#carrera').contentEditable = true;
+    document.querySelector('#bio').removeAttribute('readonly');
+    document.querySelector('#contraseña').removeAttribute('readonly');
+
+    // ✅ Mostrar/ocultar botones
+    document.querySelector('.editar-btn').classList.add('hidden');
+    document.querySelector('.guardar-btn').classList.remove('hidden');
+    document.querySelector('.cancelar-btn').classList.remove('hidden');
+}
+
+function cancelarEdicion() {
+    location.reload(); // Recarga la página para cancelar los cambios
+}
+
+function guardarPerfil() {
+    const nombre_completo = document.querySelector('#nombre_completo').innerText.trim();
+    const carrera = document.querySelector('#carrera').innerText.trim();
+    const bio = document.querySelector('#bio').value.trim();
+    const contraseña = document.querySelector('#contraseña').value.trim();
+
+    fetch('/perfil', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            nombre_completo: nombre_completo,
+            password: contraseña,
+            carrera: carrera,
+            descripcion_personal: bio
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            alert('Perfil actualizado correctamente');
+            location.reload();
+        } else {
+            alert('Error al actualizar perfil');
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        alert('Ocurrió un error al guardar el perfil.');
+    });
+}
+</script>
+</body>
+</html>
