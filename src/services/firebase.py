@@ -19,9 +19,9 @@ if not FIREBASE_DB_URL:
 # Inicializar Firebase solo una vez
 if not firebase_admin._apps:
     # Convertir el JSON almacenado en la variable de entorno en un dict
-
+    cred_dict=json.loads(FIREBASE_CREDENTIALS)
     # Crear credenciales desde el dict (sin archivo físico)
-    cred = credentials.Certificate(FIREBASE_CREDENTIALS)
+    cred = credentials.Certificate(cred_dict)
 
     # Inicializar Firebase
     firebase_admin.initialize_app(cred, {
@@ -54,4 +54,5 @@ class FirebaseService:
         datos_actuales = self.obtener_datos(ruta) or {}
         datos_actuales[campo] = nuevo_valor
         self.actualizar_datos(ruta, datos_actuales)
+
 
